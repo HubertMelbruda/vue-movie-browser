@@ -9,8 +9,8 @@
         </div>
       </router-link>
     </div>
-    <form @submit.prevent class="search-box">
-      <input type="text" placeholder="What movie do you want to watch?" class="search-box__input search-box--reset">
+    <form @submit.prevent="searchMovies" class="search-box">
+      <input type="text" placeholder="What movie do you want to watch?" class="search-box__input search-box--reset" v-model="search" >
       <!-- <input type="submit" value="Search" class="search-button"> -->
       <button type="submit" class="search-box__button search-box--reset">Search</button>
     </form>
@@ -20,10 +20,36 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
+//e50d118f
+// .then(response => response.json())
 
 
 export default {
- 
+  setup() {
+    const search = ref("")
+    const movies = ref([])
+    const error = ref(null)
+
+      const searchMovies = () => {
+        if(search.value !== "") {
+          fetch(`http://www.omdbapi.com/?apikey=e50d118f&s=${search.value}`)
+          .then(res => {
+            if(!res.ok) {
+              throw Error("There is a problem with data fetching.")
+            }
+            return res.json()
+          })
+          .then(data => {
+            movies.value = data
+            console.log(data)
+          })
+          .catch(err => error.value = err )
+        }
+      }
+    return { search, movies, searchMovies }
+  }
 }
 </script>
 
@@ -88,7 +114,7 @@ export default {
       border-radius: 15px;
 
       &::placeholder {
-        color: #FFF;
+        color: rgb(200, 200, 200);
       }
 
       &:focus {
