@@ -1,7 +1,8 @@
 <template>
-  <header>
+  <header class="header">
     <router-link to="/">
-      <h1><span>Vue</span>Movies</h1>
+      <h1 class="header__logo">
+        <span class="header-logo__first-part">Vue</span>Movies</h1>
     </router-link>
   </header>
   <main>
@@ -25,28 +26,38 @@
   }
 
   body {
+    margin: 0 auto;
     background-color: #35495E;
+    min-width: 600px;
+    max-width: 900px;
   }
-
+  
   a {
     text-decoration: none;
   }
 
-  header {
+  .header {
     display: flex;
     align-content: center;
     justify-content: center;
     background-color: #2C3D4E;
     padding: 10px 16px;
     box-shadow: 0px 0px 10px #ffffff ;
+    
   }
 
-  h1 {
+  .header__logo {
     color: #fff;
     font-size: 28px;
 
-    span {
+    .header-logo__first-part {
       color: #42B883;
     }
   }
-</style>
+
+  @media (max-width: 600px) {
+    body {
+     min-width: 300px;
+    }
+  }
+  </style>

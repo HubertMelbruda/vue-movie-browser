@@ -12,29 +12,43 @@
     <form @submit.prevent="searchMovies" class="search-box">
       <input type="text" placeholder="What movie do you want to watch?" class="search-box__input search-box--reset" v-model="search" >
       <!-- <input type="submit" value="Search" class="search-button"> -->
-      <button type="submit" class="search-box__button search-box--reset">Search</button>
+      <button type="submit" class="search-box__search-btn search-box--reset">Search</button>
     </form>
 
-    <div class="movies-list">MOVIES</div>
+    <div class="movies-list" v-if="movies.length">
+      <div class="movies-list__header">Movies</div>
+      <div class="movies-list__container">
+        <div class="movie-card" v-for="movie in movies2" :key="movie.imdbID" >
+             <div class="movie-card__img">
+                <img :src="movie.Poster" alt="movie poster">
+                <p class="movie-card__movie-type">{{ movie.Type }}</p>
+             </div>
+             <div class="movie-card__details">
+                <h3 class="movie-card__title">{{ movie.Title }}</h3>
+                <p>{{ movie.Year }}</p>
+              </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
-
 //e50d118f
-// .then(response => response.json())
-
 
 export default {
   setup() {
     const search = ref("")
     const movies = ref([])
+    const movies2 = ref([])
     const error = ref(null)
-
+    
+    
       const searchMovies = () => {
         if(search.value !== "") {
           fetch(`http://www.omdbapi.com/?apikey=e50d118f&s=${search.value}`)
+          // fetch(`http://www.omdbapi.com/?apikey=e50d118f&s=Mario`)
           .then(res => {
             if(!res.ok) {
               throw Error("There is a problem with data fetching.")
@@ -42,14 +56,20 @@ export default {
             return res.json()
           })
           .then(data => {
-            movies.value = data
-            console.log(data)
+            movies.value = data.Search
+            search.value = ""
+            movies2.value = [...movies.value]
+            
           })
           .catch(err => error.value = err )
         }
       }
-    return { search, movies, searchMovies }
+    return { search, movies, movies2, searchMovies }
+
+    
   }
+
+
 }
 </script>
 
@@ -91,10 +111,9 @@ export default {
   .search-box {
     display: flex;
     flex-direction: column;;
-
     align-content: center;
     align-items: center;
-    padding: 15px;
+    padding: 10px 15px;
 
     .search-box--reset {
       display: block;
@@ -122,20 +141,103 @@ export default {
       }
     }
 
-    .search-box__button {
+    .search-box__search-btn {
       width: 100%;
       max-width: 200px;
       color: #fff;
       font-size: 20px;
       background-color: #09a650;
       padding: 10px 15px;
-      margin: 10px;
+      margin: 10px 10px 5px 10px;
       border-radius: 15px;
 
       &:active {
         background-color: #0bda68;
         box-shadow: 0px 0px 10px #0bda68 ;
       }
+    }
+  }
+
+  .movies-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .movies-list__header {
+      font-size: 20px;
+      color: #fff;
+      background-color: #496583;
+      padding: 5px 25px;
+      margin-top: 20px;
+      border-radius: 15px;
+    }
+
+    .movies-list__container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 10px;
+      margin: 10px;
+      
+    }
+
+    .movie-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      margin: 10px;
+      background: #496583;
+      border-radius: 15px;
+      min-width: 300px;
+
+      .movie-card__img {
+        overflow: hidden;
+        position: relative;
+      
+        img {
+          display: block;
+          min-width: 300px;
+          max-height: 400px;
+          // aspect-ratio:  9 / 16;
+          border-radius: 15px;
+          object-fit: cover;
+        }
+
+        .movie-card__movie-type {
+          position: absolute;
+          background: #09a650;
+          font-size: 20px;
+          color: #f0f0f0;
+          padding: 5px;
+          top: 350px;
+          left: 0px;
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+
+      .movie-card__details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+        color: #f0f0f0;
+        max-width: 300px;
+      }
+    }
+  }
+
+  @media (max-width: 450px) {
+    .search-box__input {
+      
+      &::placeholder {
+        font-size: 14px;
+      }
+    }
+
+    .movie-card {
+      width: 20%;
     }
   }
 </style>
