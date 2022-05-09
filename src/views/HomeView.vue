@@ -15,10 +15,12 @@
       <button type="submit" class="search-box__search-btn search-box--reset">Search</button>
     </form>
 
-    <div class="movies-list" v-if="movies.length">
+    
+      <div class="movies-list" v-if="movies.length">
       <div class="movies-list__header">Movies</div>
       <div class="movies-list__container">
-        <div class="movie-card" v-for="movie in movies2" :key="movie.imdbID" >
+        <div class="movie-card" v-for="movie in movies" :key="movie.imdbID" >
+          <router-link :to="{ name: 'Movie Detail', params: { id: movie.imdbID}}">
              <div class="movie-card__img">
                 <img :src="movie.Poster" alt="movie poster">
                 <p class="movie-card__movie-type">{{ movie.Type }}</p>
@@ -26,10 +28,13 @@
              <div class="movie-card__details">
                 <h3 class="movie-card__title">{{ movie.Title }}</h3>
                 <p>{{ movie.Year }}</p>
-              </div>
+             </div>
+          </router-link>
         </div>
       </div>
     </div>
+    
+    
   </div>
 </template>
 
@@ -41,14 +46,13 @@ export default {
   setup() {
     const search = ref("")
     const movies = ref([])
-    const movies2 = ref([])
     const error = ref(null)
+    
     
     
       const searchMovies = () => {
         if(search.value !== "") {
           fetch(`http://www.omdbapi.com/?apikey=e50d118f&s=${search.value}`)
-          // fetch(`http://www.omdbapi.com/?apikey=e50d118f&s=Mario`)
           .then(res => {
             if(!res.ok) {
               throw Error("There is a problem with data fetching.")
@@ -58,14 +62,13 @@ export default {
           .then(data => {
             movies.value = data.Search
             search.value = ""
-            movies2.value = [...movies.value]
             
           })
           .catch(err => error.value = err )
         }
       }
-    return { search, movies, movies2, searchMovies }
-
+    return { search, movies, searchMovies }
+    
     
   }
 
@@ -197,7 +200,7 @@ export default {
       
         img {
           display: block;
-          min-width: 300px;
+          min-width: 280px;
           max-height: 400px;
           // aspect-ratio:  9 / 16;
           border-radius: 15px;
@@ -236,8 +239,5 @@ export default {
       }
     }
 
-    .movie-card {
-      width: 20%;
-    }
   }
 </style>

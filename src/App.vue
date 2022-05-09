@@ -13,12 +13,19 @@
   </footer> -->
 </template>
 
+<script>
+export default {
+
+}
+</script>
+
+
 <style lang="scss">
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Quicksand','Roboto', sans-serif;
 
     &::selection {
       background: transparentize($color: #42B883, $amount: 0.5);
@@ -42,6 +49,8 @@
     justify-content: center;
     background-color: #2C3D4E;
     padding: 10px 16px;
+    margin: 10px 0;
+    border-radius: 10px;
     box-shadow: 0px 0px 10px #ffffff ;
     
   }
