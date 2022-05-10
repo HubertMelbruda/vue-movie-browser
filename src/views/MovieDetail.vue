@@ -27,6 +27,7 @@
 <script>
 import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router'
+const axios = require('axios').default;
 
 export default {
   setup() {
@@ -34,16 +35,9 @@ export default {
     const route = useRoute()
 
     onBeforeMount(() => { 
-      fetch(`http://www.omdbapi.com/?apikey=e50d118f&i=${route.params.id}&plot=full`)
+      axios.get(`http://www.omdbapi.com/?apikey=e50d118f&i=${route.params.id}&plot=full`)
       .then(res => {
-        if(!res.ok) {
-          throw Error("There is a problem with data fetching.")
-        }
-        return res.json()
-      })
-      .then(data => {
-        movie.value = data
-        console.log(data)
+        movie.value = res.data
       })
       
     })

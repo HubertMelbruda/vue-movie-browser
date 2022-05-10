@@ -40,6 +40,7 @@
 
 <script>
 import { ref } from 'vue';
+const axios = require('axios').default;
 //e50d118f
 
 export default {
@@ -48,28 +49,18 @@ export default {
     const movies = ref([])
     const error = ref(null)
     
-    
-    
-      const searchMovies = () => {
-        if(search.value !== "") {
-          fetch(`http://www.omdbapi.com/?apikey=e50d118f&s=${search.value}`)
-          .then(res => {
-            if(!res.ok) {
-              throw Error("There is a problem with data fetching.")
-            }
-            return res.json()
-          })
-          .then(data => {
-            movies.value = data.Search
-            search.value = ""
-            
-          })
-          .catch(err => error.value = err )
-        }
+    const searchMovies = () => {
+      if(search.value !== "") {
+        axios.get(`http://www.omdbapi.com/?apikey=e50d118f&s=${search.value}`)
+        .then(res => {
+          movies.value = res.data.Search
+          search.value = ""
+        })
+        .catch(err => error.value = err)
       }
+    }
+
     return { search, movies, searchMovies }
-    
-    
   }
 
 
