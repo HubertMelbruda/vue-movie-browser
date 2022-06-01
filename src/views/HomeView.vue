@@ -174,10 +174,12 @@ export default {
 .movies-list__header {
   font-size: 20px;
   color: #fff;
+  text-align: center;
   background-color: #496583;
   padding: 5px 25px;
   margin-top: 20px;
   border-radius: 15px;
+  width: 100%;
 }
 
 .movies-list__container {
@@ -202,7 +204,7 @@ export default {
 .movie-card__img {
   overflow: hidden;
   position: relative;
-
+  
   img {
     display: block;
     min-width: 280px;
