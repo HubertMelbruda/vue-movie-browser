@@ -80,6 +80,7 @@ export default {
 
 .movie__img {
   border-radius: 10px;
+  margin: 0 auto;
 }
 
 .movie__description {
@@ -87,6 +88,7 @@ export default {
   flex-direction: column;
   color: #f0f0f0;
   padding: 20px 40px;
+  margin: 0 auto 0 0;
 }
 
 .movie__description--detail {

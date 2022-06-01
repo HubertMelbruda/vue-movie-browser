@@ -9,9 +9,6 @@
   <main>
     <router-view />
   </main>
-  <!-- <footer>
-      
-  </footer> -->
 </template>
 
 <script>
@@ -24,16 +21,12 @@ export default {}
   padding: 0;
   box-sizing: border-box;
   font-family: "Quicksand", "Roboto", sans-serif;
-
-  &::selection {
-    background: transparentize($color: #42b883, $amount: 0.5);
-  }
 }
 
 body {
   margin: 0 auto;
+  padding: 10px;
   background-color: #35495e;
-  min-width: 600px;
   max-width: 900px;
 }
 
@@ -55,10 +48,10 @@ a {
 .header__logo {
   color: #fff;
   font-size: 28px;
+}
 
-  .header-logo__first-part {
-    color: #42b883;
-  }
+.header-logo__first-part {
+  color: #42b883;
 }
 
 @media (max-width: 600px) {
